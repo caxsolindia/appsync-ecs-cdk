@@ -9,15 +9,10 @@ export class AppSyncStack extends cdk.Stack {
     constructor(scope: Construct, id: string, cognitoStack: CognitoStack, props?: cdk.StackProps) {
         super(scope, id, props);
 
-        // Ensure CognitoStack has a valid userPool reference
-        if (!cognitoStack.userPool) {
-            throw new Error("CognitoStack userPool is undefined. Ensure CognitoStack is instantiated first.");
-        }
-
-        // Create GraphQL API with User Pool authentication
+        // Create GraphQL API
         this.api = new appsync.GraphqlApi(this, 'GraphQLAPI', {
             name: 'AppSyncECSAPI',
-            schema: appsync.SchemaFile.fromAsset('graphql/schema.graphql'),
+            schema: appsync.SchemaFile.fromAsset('graphql/schema.graphql'), // Updated line
             authorizationConfig: {
                 defaultAuthorization: {
                     authorizationType: appsync.AuthorizationType.USER_POOL,
