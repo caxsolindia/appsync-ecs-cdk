@@ -49,23 +49,21 @@ import { IAMStack } from '../lib/iam-stack';
 
 const app = new cdk.App();
 
-// Step 1: Create Cognito Stack first (needed by IAMStack)
+// Create Cognito Stack first (needed by IAMStack)
 const cognitoStack = new CognitoStack(app, 'CognitoStack', {
-    adminRole: {} as any,  // Temporary placeholder (overwritten later)
+    adminRole: {} as any,  
     userRole: {} as any,
 });
 
-// Step 2: Create AppSync Stack (depends on Cognito)
+//  Create AppSync Stack (depends on Cognito)
 const appsyncStack = new AppSyncStack(app, 'AppSyncStack', cognitoStack);
 
-// Step 3: Create IAM Stack (depends on Cognito and AppSync)
+//  Create IAM Stack (depends on Cognito and AppSync)
 const iamStack = new IAMStack(app, 'IAMStack', cognitoStack, appsyncStack);
 
-// Step 4: Patch Cognito Stack with correct roles
+//  Patch Cognito Stack with correct roles
 (cognitoStack as any).adminRole = iamStack.adminRole;
 (cognitoStack as any).userRole = iamStack.userRole;
 
 // Step 5: Create ECS Stack (not dependent on Cognito/AppSync)
 const ecsStack = new ECSStack(app, 'ECSStack');
-
-

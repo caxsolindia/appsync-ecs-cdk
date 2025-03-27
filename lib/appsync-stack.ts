@@ -23,6 +23,23 @@ export class AppSyncStack extends cdk.Stack {
             },
         });
 
+
+        // Create a "None" Data Source (does not connect to a backend)
+        const noneDataSource = this.api.addNoneDataSource('NoneDataSource');
+
+        // Attach Resolver to "hello" Query
+        noneDataSource.createResolver('HelloResolver', {
+            typeName: 'Query', // Matches schema
+            fieldName: 'hello', // Matches the field in schema
+            requestMappingTemplate: appsync.MappingTemplate.fromString(
+                JSON.stringify({
+                    version: "2017-02-28",
+                    payload: {},
+                })
+            ),
+            responseMappingTemplate: appsync.MappingTemplate.fromString('"Hello, world!"'),
+        });
+
         // Output API URL
         new cdk.CfnOutput(this, 'GraphQLAPIURL', {
             value: this.api.graphqlUrl,
