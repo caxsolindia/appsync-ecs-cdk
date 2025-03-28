@@ -6,6 +6,7 @@ import { Construct } from 'constructs';
 
 interface RDSStackProps extends cdk.StackProps {
     vpc: ec2.Vpc;
+    instanceType: string;
 }
 
 export class RDSStack extends cdk.Stack {
@@ -16,9 +17,14 @@ export class RDSStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props: RDSStackProps) {
         super(scope, id, props);
 
-        const { vpc } = props;
+        const { vpc, instanceType } = props;
 
-        // Import Security Group ID instead of direct dependency
+        // Convert instanceType string to a valid RDS instance type
+        const formattedInstanceType = new ec2.InstanceType(instanceType);
+
+        console.log(`ℹ️ Using RDS Instance Type: ${instanceType}`);
+
+        // Import Security Group ID
         const dbSecurityGroupId = cdk.Fn.importValue('BastionSGId');
         this.dbSecurityGroup = ec2.SecurityGroup.fromSecurityGroupId(this, 'ImportedDBSG', dbSecurityGroupId);
 
@@ -37,7 +43,7 @@ export class RDSStack extends cdk.Stack {
             vpc,
             credentials: rds.Credentials.fromSecret(this.dbCredentials),
             allocatedStorage: 20,
-            instanceType: ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE3, ec2.InstanceSize.MICRO),
+            instanceType: formattedInstanceType, // ✅ Correctly formatted instance type
             vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
             securityGroups: [this.dbSecurityGroup],
         });
