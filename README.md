@@ -103,20 +103,20 @@ The CDK stack defined in the `lib` directory likely includes the following resou
 * **IAM Roles and Policies:** Defines the necessary permissions for the services.
 
 ## Install dependencies
-npm install
+* **npm install:**
 
 ## Install AWS CDK globally
-npm install -g aws-cdk
+* **npm install -g aws-cdk:**
 
 ## Configure AWS credentials (Make sure to set AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and AWS_REGION in your environment)
-export AWS_ACCESS_KEY_ID=your-access-key
-export AWS_SECRET_ACCESS_KEY=your-secret-key
-export AWS_REGION=your-region
+* **export AWS_ACCESS_KEY_ID=your-access-key:**
+* **export AWS_SECRET_ACCESS_KEY=your-secret-key:**
+* **export AWS_REGION=your-region:**
 
 ## Bootstrap CDK (only if it's the first time deploying)
-cdk bootstrap aws://your-account-id/your-region
+* **cdk bootstrap aws://your-account-id/your-region:**
 
 ## Deploy the CDK stack
-cdk deploy --all --require-approval never
+* **cdk deploy --all --require-approval never:**
 
 This README provides a basic overview of the project. For more detailed information, please refer to the CDK code in the `lib` directory and the documentation for the AWS services used.
