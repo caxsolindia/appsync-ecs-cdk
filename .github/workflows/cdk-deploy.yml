@@ -35,4 +35,4 @@ jobs:
         run: cdk bootstrap aws://${{ secrets.AWS_ACCOUNT_ID }}/${{ secrets.AWS_REGION }}
 
       - name: Deploy CDK Stack
-        run: cdk deploy -c env=prod --all --require-approval never
+        run: cdk deploy -c env=${{ env.ENVIRONMENT }} --all --require-approval never
