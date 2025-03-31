@@ -1,0 +1,19 @@
+{
+    "environments": [
+      {
+        "name": "dev",
+        "account": "796068306017",
+        "region": "eu-central-1",
+        "rdsInstanceType": "t3.micro",
+        "dbUsername": "dbadmin"
+      },
+      {
+        "name": "prod",
+        "account": "796068306017",
+        "region": "eu-central-1",
+        "rdsInstanceType": "t3.small",
+        "dbUsername": "prodadmin"
+      }
+    ]
+  }
+  

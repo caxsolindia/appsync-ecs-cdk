@@ -1,14 +1,4 @@
 {
-  "dev": {
-    "account": "796068306017",
-    "region": "eu-central-1",
-    "rdsInstanceType": "t3.micro"
-  },
-  "prod": {
-    "account": "796068306017",
-    "region": "eu-central-1",
-    "rdsInstanceType": "t3.small"
-  },
   "availability-zones:account=796068306017:region=eu-central-1": [
     "eu-central-1a",
     "eu-central-1b",

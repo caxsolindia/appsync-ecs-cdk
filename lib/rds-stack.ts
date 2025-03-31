@@ -7,6 +7,7 @@ import { Construct } from 'constructs';
 interface RDSStackProps extends cdk.StackProps {
     vpc: ec2.Vpc;
     instanceType: string;
+    dbUsername: string;
 }
 
 export class RDSStack extends cdk.Stack {
@@ -17,12 +18,11 @@ export class RDSStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props: RDSStackProps) {
         super(scope, id, props);
 
-        const { vpc, instanceType } = props;
-
-        // Convert instanceType string to a valid RDS instance type
+        const { vpc, instanceType, dbUsername } = props;
         const formattedInstanceType = new ec2.InstanceType(instanceType);
 
         console.log(`ℹ️ Using RDS Instance Type: ${instanceType}`);
+        console.log(`ℹ️ Using DB Username: ${dbUsername}`);
 
         // Import Security Group ID
         const dbSecurityGroupId = cdk.Fn.importValue('BastionSGId');
@@ -31,7 +31,7 @@ export class RDSStack extends cdk.Stack {
         // Database Credentials
         this.dbCredentials = new secretsmanager.Secret(this, 'DBCredentials', {
             generateSecretString: {
-                secretStringTemplate: JSON.stringify({ username: 'dbadmin' }),
+                secretStringTemplate: JSON.stringify({ username: dbUsername }),
                 generateStringKey: 'password',
                 excludePunctuation: true,
             },
@@ -43,7 +43,7 @@ export class RDSStack extends cdk.Stack {
             vpc,
             credentials: rds.Credentials.fromSecret(this.dbCredentials),
             allocatedStorage: 20,
-            instanceType: formattedInstanceType, // ✅ Correctly formatted instance type
+            instanceType: formattedInstanceType,
             vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
             securityGroups: [this.dbSecurityGroup],
         });
