@@ -22,7 +22,7 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 This repository contains the AWS Cloud Development Kit (CDK) code to deploy an AppSync API connected to an ECS (Elastic Container Service) cluster.
 
 ## Project Structure
-
+```
 ├── .github/workflows/cdk-deploy.yml  # GitHub Actions workflow for CDK deployment
 ├── bin/
 ├── cdk.out/
@@ -40,7 +40,7 @@ This repository contains the AWS Cloud Development Kit (CDK) code to deploy an A
 ├── package.json
 ├── README.md
 └── tsconfig.json
-
+```
 
 * `.github/workflows/cdk-deploy.yml`: Defines the GitHub Actions workflow for deploying the CDK stack.
 * `bin/`: Contains the entry point for the CDK application.
